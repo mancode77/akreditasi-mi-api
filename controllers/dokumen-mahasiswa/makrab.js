@@ -126,12 +126,14 @@ export async function deleteMakrab (req, res) {
 
     await file.delete()
 
-    const deleteMakrab = await Makrab.findByIdAndDelete(req.params.idMakrab)
+    await makrab.delete()
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: deleteMakrab,
+      data: {
+        message: 'success'
+      },
       dataLength: null,
       error: null
     })
