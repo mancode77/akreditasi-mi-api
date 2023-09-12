@@ -1,6 +1,8 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
+import fs from 'fs'
+import cors from 'cors'
 
 import routerVisitor from './routes/visitor.js'
 
@@ -36,6 +38,19 @@ mongoose.connection.on('disconnected', () => {
 })
 
 app.use(bodyParser.json())
+app.use(cors({
+  origin: ['127.0.0.1:5173', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
+}))
+
+app.use('/', (req, res, next) => {
+  fs.readFile('README.md', 'utf8', (err, data) => {
+    if (err) {
+      res.status(500).send('Error reading README.md')
+    } else {
+      res.send(data)
+    }
+  })
+})
 
 app.use('/api', routerVisitor)
 
