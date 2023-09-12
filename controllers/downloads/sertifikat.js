@@ -1,14 +1,14 @@
-import Bpk from './../../models/downloads/bpk.js'
+import Sertifikat from '../../models/downloads/sertifikat.js'
 
-export async function getBpk (req, res) {
+export async function getSertifikat (req, res) {
   try {
-    const bpk = await Bpk.find(req.body)
+    const sertifikat = await Sertifikat.find(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: bpk.length,
+      data: sertifikat,
+      dataLength: sertifikat.length,
       error: null
     })
   } catch (error) {
@@ -22,36 +22,14 @@ export async function getBpk (req, res) {
   }
 }
 
-export async function postBpk (req, res) {
+export async function postSertifikat (req, res) {
   try {
-    const bpk = await Bpk.create(req.body)
+    const sertifikat = await Sertifikat.create(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
-  } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
-  }
-}
-
-export async function putBpk (req, res) {
-  try {
-    const bpk = await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
-
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
+      data: sertifikat,
       dataLength: null,
       error: null
     })
@@ -66,14 +44,36 @@ export async function putBpk (req, res) {
   }
 }
 
-export async function deleteBpk (req, res) {
+export async function putSertifikat (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndDelete(req.params.idBpk)
+    const sertifikat = await Sertifikat.findByIdAndUpdate(req.params.idSertifikat, req.body, { new: true })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
+      data: sertifikat,
+      dataLength: null,
+      error: null
+    })
+  } catch (error) {
+    return res.json({
+      took: 500,
+      status: 'OK',
+      data: null,
+      dataLength: null,
+      error
+    })
+  }
+}
+
+export async function deleteSertifikat (req, res) {
+  try {
+    const sertifikat = await Sertifikat.findByIdAndDelete(req.params.idSertifikat)
+
+    return res.json({
+      took: 200,
+      status: 'OK',
+      data: sertifikat,
       dataLength: null,
       error: null
     })

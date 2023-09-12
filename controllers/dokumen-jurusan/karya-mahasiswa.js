@@ -1,14 +1,14 @@
-import Bpk from './../../models/downloads/bpk.js'
+import KaryaMahasiswa from '../../models/dokumen-jurusan/karya-mahasiswa.js'
 
-export async function getBpk (req, res) {
+export async function getKaryaMahasiswa (req, res) {
   try {
-    const bpk = await Bpk.find(req.body)
+    const karyaMahasiswa = await KaryaMahasiswa.find(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: bpk.length,
+      data: karyaMahasiswa,
+      dataLength: karyaMahasiswa.length,
       error: null
     })
   } catch (error) {
@@ -22,36 +22,14 @@ export async function getBpk (req, res) {
   }
 }
 
-export async function postBpk (req, res) {
+export async function postKaryaMahasiswa (req, res) {
   try {
-    const bpk = await Bpk.create(req.body)
+    const karyaMahasiswa = await KaryaMahasiswa.create(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
-  } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
-  }
-}
-
-export async function putBpk (req, res) {
-  try {
-    const bpk = await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
-
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
+      data: karyaMahasiswa,
       dataLength: null,
       error: null
     })
@@ -66,14 +44,36 @@ export async function putBpk (req, res) {
   }
 }
 
-export async function deleteBpk (req, res) {
+export async function putKaryaMahasiswa (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndDelete(req.params.idBpk)
+    const karyaMahasiswa = await KaryaMahasiswa.findByIdAndUpdate(req.params.idKaryaMahasiswa, req.body, { new: true })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
+      data: karyaMahasiswa,
+      dataLength: null,
+      error: null
+    })
+  } catch (error) {
+    return res.json({
+      took: 500,
+      status: 'OK',
+      data: null,
+      dataLength: null,
+      error
+    })
+  }
+}
+
+export async function deleteKaryaMahasiswa (req, res) {
+  try {
+    const karyaMahasiswa = await KaryaMahasiswa.findByIdAndDelete(req.params.idKaryaMahasiswa)
+
+    return res.json({
+      took: 200,
+      status: 'OK',
+      data: karyaMahasiswa,
       dataLength: null,
       error: null
     })

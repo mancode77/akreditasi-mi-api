@@ -1,14 +1,14 @@
-import Bpk from './../../models/downloads/bpk.js'
+import Pengabdian from '../../models/downloads/pengabdian.js'
 
-export async function getBpk (req, res) {
+export async function getPengabdian (req, res) {
   try {
-    const bpk = await Bpk.find(req.body)
+    const pengabdian = await Pengabdian.find(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: bpk.length,
+      data: pengabdian,
+      dataLength: pengabdian.length,
       error: null
     })
   } catch (error) {
@@ -22,36 +22,14 @@ export async function getBpk (req, res) {
   }
 }
 
-export async function postBpk (req, res) {
+export async function postPengabdian (req, res) {
   try {
-    const bpk = await Bpk.create(req.body)
+    const pengabdian = await Pengabdian.create(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
-  } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
-  }
-}
-
-export async function putBpk (req, res) {
-  try {
-    const bpk = await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
-
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
+      data: pengabdian,
       dataLength: null,
       error: null
     })
@@ -66,14 +44,36 @@ export async function putBpk (req, res) {
   }
 }
 
-export async function deleteBpk (req, res) {
+export async function putPengabdian (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndDelete(req.params.idBpk)
+    const pengabdian = await Pengabdian.findByIdAndUpdate(req.params.idPengabdian, req.body, { new: true })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
+      data: pengabdian,
+      dataLength: null,
+      error: null
+    })
+  } catch (error) {
+    return res.json({
+      took: 500,
+      status: 'OK',
+      data: null,
+      dataLength: null,
+      error
+    })
+  }
+}
+
+export async function deletePengabdian (req, res) {
+  try {
+    const pengabdian = await Pengabdian.findByIdAndDelete(req.params.idPengabdian)
+
+    return res.json({
+      took: 200,
+      status: 'OK',
+      data: pengabdian,
       dataLength: null,
       error: null
     })

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import modelOptions from '../options.js'
 
-const bpkSchema = new mongoose.Schema({
+const kontrakKuliahSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   deskripsi: {
     type: String
@@ -11,4 +11,4 @@ const bpkSchema = new mongoose.Schema({
   }
 }, modelOptions)
 
-export default mongoose.model('Bpk', bpkSchema)
+export default mongoose.model('KontrakKuliah', kontrakKuliahSchema)

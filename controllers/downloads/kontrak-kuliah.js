@@ -1,14 +1,14 @@
-import Bpk from './../../models/downloads/bpk.js'
+import KontrakKuliah from '../../models/downloads/kontrak-kuliah.js'
 
-export async function getBpk (req, res) {
+export async function getKontrakKuliah (req, res) {
   try {
-    const bpk = await Bpk.find(req.body)
+    const kontrakKuliah = await KontrakKuliah.find(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: bpk.length,
+      data: kontrakKuliah,
+      dataLength: kontrakKuliah.length,
       error: null
     })
   } catch (error) {
@@ -22,36 +22,14 @@ export async function getBpk (req, res) {
   }
 }
 
-export async function postBpk (req, res) {
+export async function postKontrakKuliah (req, res) {
   try {
-    const bpk = await Bpk.create(req.body)
+    const kontrakKuliah = await KontrakKuliah.create(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
-  } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
-  }
-}
-
-export async function putBpk (req, res) {
-  try {
-    const bpk = await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
-
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
+      data: kontrakKuliah,
       dataLength: null,
       error: null
     })
@@ -66,14 +44,36 @@ export async function putBpk (req, res) {
   }
 }
 
-export async function deleteBpk (req, res) {
+export async function putKontrakKuliah (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndDelete(req.params.idBpk)
+    const kontrakKuliah = await KontrakKuliah.findByIdAndUpdate(req.params.idKontrakKuliah, req.body, { new: true })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
+      data: kontrakKuliah,
+      dataLength: null,
+      error: null
+    })
+  } catch (error) {
+    return res.json({
+      took: 500,
+      status: 'OK',
+      data: null,
+      dataLength: null,
+      error
+    })
+  }
+}
+
+export async function deleteKontrakKuliah (req, res) {
+  try {
+    const kontrakKuliah = await KontrakKuliah.findByIdAndDelete(req.params.idKontrakKuliah)
+
+    return res.json({
+      took: 200,
+      status: 'OK',
+      data: kontrakKuliah,
       dataLength: null,
       error: null
     })

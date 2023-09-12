@@ -1,14 +1,14 @@
-import Bpk from './../../models/downloads/bpk.js'
+import Penelitian from '../../models/downloads/penelitian.js'
 
-export async function getBpk (req, res) {
+export async function getPenelitian (req, res) {
   try {
-    const bpk = await Bpk.find(req.body)
+    const penelitian = await Penelitian.find(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: bpk.length,
+      data: penelitian,
+      dataLength: penelitian.length,
       error: null
     })
   } catch (error) {
@@ -22,36 +22,14 @@ export async function getBpk (req, res) {
   }
 }
 
-export async function postBpk (req, res) {
+export async function postPenelitian (req, res) {
   try {
-    const bpk = await Bpk.create(req.body)
+    const penelitian = await Penelitian.create(req.body)
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
-  } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
-  }
-}
-
-export async function putBpk (req, res) {
-  try {
-    const bpk = await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
-
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
+      data: penelitian,
       dataLength: null,
       error: null
     })
@@ -66,14 +44,36 @@ export async function putBpk (req, res) {
   }
 }
 
-export async function deleteBpk (req, res) {
+export async function putPenelitian (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndDelete(req.params.idBpk)
+    const penelitian = await Penelitian.findByIdAndUpdate(req.params.idPenelitian, req.body, { new: true })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: bpk,
+      data: penelitian,
+      dataLength: null,
+      error: null
+    })
+  } catch (error) {
+    return res.json({
+      took: 500,
+      status: 'OK',
+      data: null,
+      dataLength: null,
+      error
+    })
+  }
+}
+
+export async function deletePenelitian (req, res) {
+  try {
+    const penelitian = await Penelitian.findByIdAndDelete(req.params.idPenelitian)
+
+    return res.json({
+      took: 200,
+      status: 'OK',
+      data: penelitian,
       dataLength: null,
       error: null
     })

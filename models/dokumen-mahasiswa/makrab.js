@@ -1,14 +1,17 @@
 import mongoose from 'mongoose'
 import modelOptions from '../options.js'
 
-const bpkSchema = new mongoose.Schema({
+const makrabSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
-  deskripsi: {
+  url: {
     type: String
   },
-  link: {
+  fileName: {
     type: String
+  },
+  year: {
+    type: Number
   }
 }, modelOptions)
 
-export default mongoose.model('Bpk', bpkSchema)
+export default mongoose.model('Makrab', makrabSchema)
