@@ -6,7 +6,7 @@ import {
 
 const router = express.Router()
 
-router.get('/api/visitor', getVisitorsLength)
-router.post('/api/visitor', postVisitor)
+router.get('/visitor', getVisitorsLength)
+router.post('/visitor', postVisitor)
 
 export default router
