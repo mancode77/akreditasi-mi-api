@@ -1,7 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
-import fs from 'fs'
 import cors from 'cors'
 
 import routerVisitor from './routes/visitor.js'
@@ -41,16 +40,6 @@ app.use(bodyParser.json())
 app.use(cors({
   origin: ['localhost', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
 }))
-
-app.use('/', (req, res) => {
-  fs.readFile('README.md', 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).send('Error reading README.md')
-    } else {
-      res.send(data)
-    }
-  })
-})
 
 app.use('/api', routerVisitor)
 
