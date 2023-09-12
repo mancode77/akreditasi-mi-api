@@ -38,7 +38,7 @@ mongoose.connection.on('disconnected', () => {
 
 app.use(bodyParser.json())
 app.use(cors({
-  origin: ['localhost', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
+  origin: ['http://localhost:5173', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
 }))
 
 app.use('/api', routerVisitor)
