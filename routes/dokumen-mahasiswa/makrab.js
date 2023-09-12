@@ -10,6 +10,6 @@ const router = express.Router()
 
 router.get('/makrab/:year', getMakrab)
 router.post('/makrab/:year', upload.single('image'), postMakrab)
-router.delete('/makrab/:year/:idMakrab', deleteMakrab)
+router.delete('/makrab/:idMakrab', deleteMakrab)
 
 export default router
