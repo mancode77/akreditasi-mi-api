@@ -22,7 +22,7 @@ import routerMakrab from './routes/dokumen-mahasiswa/makrab.js'
 const app = express()
 const port = process.env.PORT || 3000
 
-mongoose.connect('mongodb://127.0.0.1:27017/akreditasimi', {
+mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
