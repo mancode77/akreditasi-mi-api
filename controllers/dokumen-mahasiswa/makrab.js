@@ -126,7 +126,7 @@ export async function deleteMakrab (req, res) {
 
     await file.delete()
 
-    await makrab.delete()
+    await makrab.deleteOne()
 
     return res.json({
       took: 200,
