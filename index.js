@@ -2,6 +2,10 @@ import express from 'express'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express'
+import swaggerFile from './swagger_output.json' assert { type: "json" };
+
+
 
 import routerVisitor from './routes/visitor.js'
 
@@ -41,7 +45,9 @@ app.use(cors({
   origin: ['http://localhost:5173', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
 }))
 
-app.use('/api', routerVisitor)
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+app.use(routerVisitor)
 
 // Routes Downloads
 app.use('/api', routerBpk)

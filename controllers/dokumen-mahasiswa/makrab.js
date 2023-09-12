@@ -28,9 +28,9 @@ export async function postMakrab (req, res) {
     const image = req.file
 
     if (!image) {
-      return res.json({
+      return res.status(400).json({
         took: 400,
-        status: 'OK',
+        status: 'User Error',
         data: null,
         dataLength: null,
         error: {
@@ -54,9 +54,9 @@ export async function postMakrab (req, res) {
 
     fileStream.on('error', (error) => {
       console.error('Error uploading image:', error)
-      return res.json({
+      return res.status(400).json({
         took: 400,
-        status: 'OK',
+        status: 'User Error',
         data: null,
         dataLength: null,
         error: {
@@ -70,7 +70,7 @@ export async function postMakrab (req, res) {
         action: 'read',
         expires: '03-01-2500'
       })
-      console.log(url)
+
       const makrab = new Makrab({
         url,
         fileName,
@@ -80,7 +80,7 @@ export async function postMakrab (req, res) {
 
       await makrab.save()
 
-      return res.json({
+      return res.status(200).json({
         took: 200,
         status: 'OK',
         data: makrab,
@@ -91,9 +91,9 @@ export async function postMakrab (req, res) {
 
     fileStream.end(image.buffer)
   } catch (error) {
-    return res.json({
+    return res.status(500).json({
       took: 500,
-      status: 'OK',
+      status: 'Server Error',
       data: null,
       dataLength: null,
       error
