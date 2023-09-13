@@ -8,8 +8,8 @@ import {
 
 const router = express.Router()
 
-router.get('/tournament/:year', getTournament)
-router.post('/tournament/:year', upload.single('image'), postTournament)
-router.delete('/tournament/:year/:idTournament', deleteTournament)
+router.get('/kompetisi/:year', getTournament)
+router.post('/kompetisi/:year', upload.single('image'), postTournament)
+router.delete('/kompetisi/:year/:idKompetisi', deleteTournament)
 
 export default router
