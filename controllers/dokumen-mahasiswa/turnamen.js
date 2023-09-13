@@ -1,15 +1,15 @@
 import { storage } from '../../config.js'
-import Kurikulum from '../../models/dokumen-mahasiswa/kurikulum.js'
+import Turnamen from '../../models/dokumen-mahasiswa/turnamen.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
 
-export async function getKurikulum (req, res) {
+export async function getTurnamen (req, res) {
   try {
-    const kurikulum = await Kurikulum.find({ year: req.params.year })
+    const turnamen = await Turnamen.find({ year: req.params.year })
 
-    const dataKurikulum = response(200, 'OK', kurikulum, null)
+    const dataTurnamen = response(200, 'OK', turnamen, null)
 
-    const encryptedResponse = encrypt(dataKurikulum, '123')
+    const encryptedResponse = encrypt(dataTurnamen, '123')
 
     return res.status(200).json(encryptedResponse)
   } catch (error) {
@@ -17,7 +17,7 @@ export async function getKurikulum (req, res) {
   }
 }
 
-export async function postKurikulum (req, res) {
+export async function postTurnamen (req, res) {
   try {
     const image = req.file
 
@@ -35,7 +35,7 @@ export async function postKurikulum (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'Kurikulum'
+    const dest = 'Turnamen'
 
     const fileName = `${Date.now()}_${image.originalname}`
     const file = bucket.file(`${dest}/${fileName}`)
@@ -57,16 +57,16 @@ export async function postKurikulum (req, res) {
         expires: '03-01-2500'
       })
 
-      const kurikulum = new Kurikulum({
+      const turnamen = new Turnamen({
         url,
         fileName,
         year: req.params.year
 
       })
 
-      await kurikulum.save()
+      await turnamen.save()
 
-      return res.status(200).json(response(200, 'OK', kurikulum, null))
+      return res.status(200).json(response(200, 'OK', turnamen, null))
     })
 
     fileStream.end(image.buffer)
@@ -75,15 +75,15 @@ export async function postKurikulum (req, res) {
   }
 }
 
-export async function deleteKurikulum (req, res) {
+export async function deleteTurnamen (req, res) {
   try {
-    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
+    const turnamen = await Turnamen.findById(req.params.idTurnamen)
 
-    if (!kurikulum) {
+    if (!turnamen) {
       return res.json({
         took: 404,
         status: 'Not Found',
-        data: kurikulum,
+        data: turnamen,
         dataLength: null,
         error: {
           message: 'Data tidak ada'
@@ -93,16 +93,16 @@ export async function deleteKurikulum (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'Kurikulum'
+    const dest = 'Turnamen'
 
-    const fileName = kurikulum.fileName
+    const fileName = turnamen.fileName
     const file = bucket.file(`${dest}/${fileName}`)
 
     await file.delete()
 
-    await kurikulum.deleteOne()
+    await turnamen.deleteOne()
 
-    return res.status(200).json(response(200, 'OK', kurikulum, null))
+    return res.status(200).json(response(200, 'OK', turnamen, null))
   } catch (error) {
     return res.status(500).json(response(500, 'Server Error', null, error))
   }

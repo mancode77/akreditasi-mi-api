@@ -23,7 +23,7 @@ import routerMagang from './routes/dokumen-mahasiswa/magang.js'
 import routerSosialisasi from './routes/dokumen-mahasiswa/sosialisasi.js'
 import routerSeminar from './routes/dokumen-mahasiswa/seminar.js'
 import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
-import routerTournament from './routes/dokumen-mahasiswa/tournament.js'
+import routerTurnamen from './routes/dokumen-mahasiswa/turnamen.js'
 import routerHmj from './routes/dokumen-mahasiswa/hmj.js'
 
 let app = null
@@ -78,7 +78,7 @@ app.use('/api', routerMagang)
 app.use('/api', routerSosialisasi)
 app.use('/api', routerSeminar)
 app.use('/api', routerWebinar)
-app.use('/api', routerTournament)
+app.use('/api', routerTurnamen)
 app.use('/api', routerHmj)
 
 app.listen(port, () => {

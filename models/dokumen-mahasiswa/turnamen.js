@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import modelOptions from '../options.js'
 
-const tournamentSchema = new mongoose.Schema({
+const turnamenSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   url: {
     type: String
@@ -14,4 +14,4 @@ const tournamentSchema = new mongoose.Schema({
   }
 }, modelOptions)
 
-export default mongoose.model('Tournament', tournamentSchema)
+export default mongoose.model('Turnamen', turnamenSchema)
