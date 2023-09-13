@@ -1,21 +1,19 @@
-import { storage } from './../../config.js'
-import Makrab from './../../models/dokumen-mahasiswa/makrab.js'
-import crypto from 'crypto-js'
+import { storage } from '../../config.js'
+import Makrab from '../../models/dokumen-mahasiswa/makrab.js'
 
 export async function getMakrab (req, res) {
   try {
-    function encryptResponse (data, secretKey) {
-      const encryptedData = crypto.AES.encrypt(JSON.stringify(data), secretKey).toString()
-      return encryptedData
-    }
-
     const makrab = await Makrab.find({ year: req.params.year })
 
-    const encryptedResponse = encryptResponse(makrab, 'kodok-terbang')
-
-    return res.status(200).json(encryptedResponse)
+    return res.json({
+      took: 200,
+      status: 'OK',
+      data: makrab,
+      dataLength: makrab.length,
+      error: null
+    })
   } catch (error) {
-    return res.status(500).json({
+    return res.json({
       took: 500,
       status: 'OK',
       data: null,

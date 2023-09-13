@@ -19,11 +19,22 @@ import routerKaryaMahasiswa from './routes/dokumen-jurusan/karya-mahasiswa.js'
 
 // Route Dokumen mahasiswa
 import routerMakrab from './routes/dokumen-mahasiswa/makrab.js'
+// import routerMagang from './routes/dokumen-mahasiswa/magang.js'
+// import routerSosialisasi from './routes/dokumen-mahasiswa/sosialisasi.js'
+// import routerSeminar from './routes/dokumen-mahasiswa/seminar.js'
+// import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
+// import routerKompetisiGame from './routes/dokumen-mahasiswa/kompetisi-game.js'
+// import routerKai from './routes/dokumen-mahasiswa/kai.js'
 
-const app = express()
+export const app = express()
 const port = process.env.PORT || 3000
 
-mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
+// mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+
+mongoose.connect('mongodb://127.0.0.1:27017', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -37,6 +48,7 @@ mongoose.connection.on('disconnected', () => {
 })
 
 app.use(bodyParser.json())
+
 app.use(cors({
   origin: ['http://localhost:5173', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
 }))
@@ -57,6 +69,12 @@ app.use('/api', routerKaryaMahasiswa)
 
 // Routes Dokumen Mahasiswa
 app.use('/api', routerMakrab)
+// app.use('/api', routerMagang)
+// app.use('/api', routerSosialisasi)
+// app.use('/api', routerSeminar)
+// app.use('/api', routerWebinar)
+// app.use('/api', routerKompetisiGame)
+// app.use('/api', routerKai)
 
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`)
