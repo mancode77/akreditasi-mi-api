@@ -19,7 +19,7 @@ import routerKaryaMahasiswa from './routes/dokumen-jurusan/karya-mahasiswa.js'
 
 // Route Dokumen mahasiswa
 import routerMakrab from './routes/dokumen-mahasiswa/makrab.js'
-// import routerMagang from './routes/dokumen-mahasiswa/magang.js'
+import routerMagang from './routes/dokumen-mahasiswa/magang.js'
 // import routerSosialisasi from './routes/dokumen-mahasiswa/sosialisasi.js'
 // import routerSeminar from './routes/dokumen-mahasiswa/seminar.js'
 // import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
@@ -69,7 +69,7 @@ app.use('/api', routerKaryaMahasiswa)
 
 // Routes Dokumen Mahasiswa
 app.use('/api', routerMakrab)
-// app.use('/api', routerMagang)
+app.use('/api', routerMagang)
 // app.use('/api', routerSosialisasi)
 // app.use('/api', routerSeminar)
 // app.use('/api', routerWebinar)
