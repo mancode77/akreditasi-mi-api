@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import modelOptions from '../options.js'
 
-const makrabSchema = new mongoose.Schema({
+const hmjSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   url: {
     type: String
@@ -14,4 +14,4 @@ const makrabSchema = new mongoose.Schema({
   }
 }, modelOptions)
 
-export default mongoose.model('Makrab', makrabSchema)
+export default mongoose.model('Hmj', hmjSchema)

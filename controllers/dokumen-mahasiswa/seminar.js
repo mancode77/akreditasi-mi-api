@@ -1,29 +1,23 @@
 import { storage } from '../../config.js'
-import Makrab from '../../models/dokumen-mahasiswa/makrab.js'
+import Seminar from './../../models/dokumen-mahasiswa/semniar.js'
+import response from '../../utils/response.js'
+import encrypt from '../../utils/encrypt.js'
 
-export async function getMakrab (req, res) {
+export async function getSeminar (req, res) {
   try {
-    const makrab = await Makrab.find({ year: req.params.year })
+    const seminar = await Seminar.find({ year: req.params.year })
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: makrab,
-      dataLength: makrab.length,
-      error: null
-    })
+    const dataSeminar = response(200, 'OK', seminar, null)
+
+    const encryptedResponse = encrypt(dataSeminar, '123')
+
+    return res.status(200).json(encryptedResponse)
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(200, 'OK', null, error))
   }
 }
 
-export async function postMakrab (req, res) {
+export async function postSeminar (req, res) {
   try {
     const image = req.file
 
@@ -41,7 +35,7 @@ export async function postMakrab (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'makrab'
+    const dest = 'Seminar'
 
     const fileName = `${Date.now()}_${image.originalname}`
     const file = bucket.file(`${dest}/${fileName}`)
@@ -54,15 +48,7 @@ export async function postMakrab (req, res) {
 
     fileStream.on('error', (error) => {
       console.error('Error uploading image:', error)
-      return res.status(400).json({
-        took: 400,
-        status: 'User Error',
-        data: null,
-        dataLength: null,
-        error: {
-          message: 'Error ketika menupload gambar'
-        }
-      })
+      return res.status(400).json(response(400, 'User Error', null, 'Error ketika menupload gambar'))
     })
 
     fileStream.on('finish', async () => {
@@ -71,45 +57,33 @@ export async function postMakrab (req, res) {
         expires: '03-01-2500'
       })
 
-      const makrab = new Makrab({
+      const seminar = new Seminar({
         url,
         fileName,
         year: req.params.year
 
       })
 
-      await makrab.save()
+      await seminar.save()
 
-      return res.status(200).json({
-        took: 200,
-        status: 'OK',
-        data: makrab,
-        dataLength: null,
-        error: null
-      })
+      return res.status(200).json(response(200, 'OK', seminar, null))
     })
 
     fileStream.end(image.buffer)
   } catch (error) {
-    return res.status(500).json({
-      took: 500,
-      status: 'Server Error',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
-export async function deleteMakrab (req, res) {
+export async function deleteSeminar (req, res) {
   try {
-    const makrab = await Makrab.findById(req.params.idMakrab)
+    const seminar = await Seminar.findById(req.params.idSeminar)
 
-    if (!makrab) {
+    if (!seminar) {
       return res.json({
         took: 404,
         status: 'Not Found',
-        data: makrab,
+        data: seminar,
         dataLength: null,
         error: {
           message: 'Data tidak ada'
@@ -119,31 +93,17 @@ export async function deleteMakrab (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'makrab'
+    const dest = 'Seminar'
 
-    const fileName = makrab.fileName
+    const fileName = seminar.fileName
     const file = bucket.file(`${dest}/${fileName}`)
 
     await file.delete()
 
-    await makrab.deleteOne()
+    await seminar.deleteOne()
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: {
-        message: 'success'
-      },
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', seminar, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }

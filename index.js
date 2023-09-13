@@ -21,12 +21,21 @@ import routerKaryaMahasiswa from './routes/dokumen-jurusan/karya-mahasiswa.js'
 import routerMakrab from './routes/dokumen-mahasiswa/makrab.js'
 import routerMagang from './routes/dokumen-mahasiswa/magang.js'
 import routerSosialisasi from './routes/dokumen-mahasiswa/sosialisasi.js'
-// import routerSeminar from './routes/dokumen-mahasiswa/seminar.js'
-// import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
-// import routerKompetisiGame from './routes/dokumen-mahasiswa/kompetisi-game.js'
-// import routerKai from './routes/dokumen-mahasiswa/kai.js'
+import routerSeminar from './routes/dokumen-mahasiswa/seminar.js'
+import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
+import routerTournament from './routes/dokumen-mahasiswa/tournament.js'
+import routerHmj from './routes/dokumen-mahasiswa/hmj.js'
 
-const app = express()
+let singleCreateObject = false
+
+let app = null
+
+if (!singleCreateObject) {
+  app = express()
+
+  singleCreateObject = true
+}
+
 const port = process.env.PORT || 3000
 
 mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
@@ -71,10 +80,10 @@ app.use('/api', routerKaryaMahasiswa)
 app.use('/api', routerMakrab)
 app.use('/api', routerMagang)
 app.use('/api', routerSosialisasi)
-// app.use('/api', routerSeminar)
-// app.use('/api', routerWebinar)
-// app.use('/api', routerKompetisiGame)
-// app.use('/api', routerKai)
+app.use('/api', routerSeminar)
+app.use('/api', routerWebinar)
+app.use('/api', routerTournament)
+app.use('/api', routerHmj)
 
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`)

@@ -1,15 +1,15 @@
 import { storage } from '../../config.js'
-import Webinar from '../../models/dokumen-mahasiswa/webinar.js'
+import Hmj from '../../models/dokumen-mahasiswa/hmj.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
 
-export async function getWebinar (req, res) {
+export async function getHmj (req, res) {
   try {
-    const webinar = await Webinar.find({ year: req.params.year })
+    const hmj = await Hmj.find({ year: req.params.year })
 
-    const dataWebinar = response(200, 'OK', webinar, null)
+    const dataHmj = response(200, 'OK', hmj, null)
 
-    const encryptedResponse = encrypt(dataWebinar, '123')
+    const encryptedResponse = encrypt(dataHmj, '123')
 
     return res.status(200).json(encryptedResponse)
   } catch (error) {
@@ -17,7 +17,7 @@ export async function getWebinar (req, res) {
   }
 }
 
-export async function postWebinar (req, res) {
+export async function postHmj (req, res) {
   try {
     const image = req.file
 
@@ -35,7 +35,7 @@ export async function postWebinar (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'Webinar'
+    const dest = 'Hmj'
 
     const fileName = `${Date.now()}_${image.originalname}`
     const file = bucket.file(`${dest}/${fileName}`)
@@ -57,16 +57,16 @@ export async function postWebinar (req, res) {
         expires: '03-01-2500'
       })
 
-      const webinar = new Webinar({
+      const hmj = new Hmj({
         url,
         fileName,
         year: req.params.year
 
       })
 
-      await webinar.save()
+      await hmj.save()
 
-      return res.status(200).json(response(200, 'OK', webinar, null))
+      return res.status(200).json(response(200, 'OK', hmj, null))
     })
 
     fileStream.end(image.buffer)
@@ -75,15 +75,15 @@ export async function postWebinar (req, res) {
   }
 }
 
-export async function deleteWebinar (req, res) {
+export async function deleteHmj (req, res) {
   try {
-    const webinar = await Webinar.findById(req.params.idWebinar)
+    const hmj = await Hmj.findById(req.params.idHmj)
 
-    if (!webinar) {
+    if (!hmj) {
       return res.json({
         took: 404,
         status: 'Not Found',
-        data: webinar,
+        data: hmj,
         dataLength: null,
         error: {
           message: 'Data tidak ada'
@@ -93,16 +93,16 @@ export async function deleteWebinar (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'Webinar'
+    const dest = 'Hmj'
 
-    const fileName = webinar.fileName
+    const fileName = hmj.fileName
     const file = bucket.file(`${dest}/${fileName}`)
 
     await file.delete()
 
-    await webinar.deleteOne()
+    await hmj.deleteOne()
 
-    return res.status(200).json(response(200, 'OK', webinar, null))
+    return res.status(200).json(response(200, 'OK', hmj, null))
   } catch (error) {
     return res.status(500).json(response(500, 'Server Error', null, error))
   }

@@ -1,15 +1,15 @@
 import { storage } from '../../config.js'
-import Makrab from '../../models/dokumen-mahasiswa/makrab.js'
+import Tournament from '../../models/dokumen-mahasiswa/tournament.js'
 
-export async function getMakrab (req, res) {
+export async function getTournament (req, res) {
   try {
-    const makrab = await Makrab.find({ year: req.params.year })
+    const tournament = await Tournament.find({ year: req.params.year })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: makrab,
-      dataLength: makrab.length,
+      data: tournament,
+      dataLength: tournament.length,
       error: null
     })
   } catch (error) {
@@ -23,7 +23,7 @@ export async function getMakrab (req, res) {
   }
 }
 
-export async function postMakrab (req, res) {
+export async function postTournament (req, res) {
   try {
     const image = req.file
 
@@ -41,7 +41,7 @@ export async function postMakrab (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'makrab'
+    const dest = 'Tournament'
 
     const fileName = `${Date.now()}_${image.originalname}`
     const file = bucket.file(`${dest}/${fileName}`)
@@ -71,19 +71,19 @@ export async function postMakrab (req, res) {
         expires: '03-01-2500'
       })
 
-      const makrab = new Makrab({
+      const tournament = new Tournament({
         url,
         fileName,
         year: req.params.year
 
       })
 
-      await makrab.save()
+      await tournament.save()
 
       return res.status(200).json({
         took: 200,
         status: 'OK',
-        data: makrab,
+        data: tournament,
         dataLength: null,
         error: null
       })
@@ -101,15 +101,15 @@ export async function postMakrab (req, res) {
   }
 }
 
-export async function deleteMakrab (req, res) {
+export async function deleteTournament (req, res) {
   try {
-    const makrab = await Makrab.findById(req.params.idMakrab)
+    const tournament = await Tournament.findById(req.params.idTournament)
 
-    if (!makrab) {
+    if (!tournament) {
       return res.json({
         took: 404,
         status: 'Not Found',
-        data: makrab,
+        data: tournament,
         dataLength: null,
         error: {
           message: 'Data tidak ada'
@@ -119,14 +119,14 @@ export async function deleteMakrab (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'makrab'
+    const dest = 'Tournament'
 
-    const fileName = makrab.fileName
+    const fileName = Tournament.fileName
     const file = bucket.file(`${dest}/${fileName}`)
 
     await file.delete()
 
-    await makrab.deleteOne()
+    await Tournament.deleteOne()
 
     return res.json({
       took: 200,

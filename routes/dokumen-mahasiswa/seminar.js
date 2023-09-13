@@ -1,15 +1,15 @@
 import express from 'express'
 import upload from '../../middleware/multer.js'
 import {
-  getMakrab,
-  postMakrab,
-  deleteMakrab
-} from '../../controllers/dokumen-mahasiswa/makrab.js'
+  getSeminar,
+  postSeminar,
+  deleteSeminar
+} from '../../controllers/dokumen-mahasiswa/seminar.js'
 
 const router = express.Router()
 
-router.get('/makrab/:year', getMakrab)
-router.post('/makrab/:year', upload.single('image'), postMakrab)
-router.delete('/makrab/:year/:idMakrab', deleteMakrab)
+router.get('/seminar/:year', getSeminar)
+router.post('/seminar/:year', upload.single('image'), postSeminar)
+router.delete('/seminar/:year/:idSeminar', deleteSeminar)
 
 export default router
