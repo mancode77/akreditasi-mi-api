@@ -26,14 +26,10 @@ import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
 import routerTournament from './routes/dokumen-mahasiswa/tournament.js'
 import routerHmj from './routes/dokumen-mahasiswa/hmj.js'
 
-let singleCreateObject = false
-
 let app = null
 
-if (!singleCreateObject) {
+if (!app) {
   app = express()
-
-  singleCreateObject = true
 }
 
 const port = process.env.PORT || 3000
