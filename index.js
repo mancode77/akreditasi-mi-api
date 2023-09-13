@@ -26,18 +26,18 @@ import routerMakrab from './routes/dokumen-mahasiswa/makrab.js'
 // import routerKompetisiGame from './routes/dokumen-mahasiswa/kompetisi-game.js'
 // import routerKai from './routes/dokumen-mahasiswa/kai.js'
 
-export const app = express()
+const app = express()
 const port = process.env.PORT || 3000
 
-// mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-
-mongoose.connect('mongodb://127.0.0.1:27017', {
+mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+
+// mongoose.connect('mongodb://127.0.0.1:27017', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
 
 mongoose.connection.on('connected', () => {
   console.log('Koneksi berhasil ngabs skuy kita mabar bersama kodok terbang dan mister raul')

@@ -22,7 +22,9 @@ export async function postMakrab (req, res) {
     const image = req.file
 
     if (!image) {
-      return res.status(400).json({
+      return res.status(400).json(
+        
+        {
         took: 400,
         status: 'User Error',
         data: null,
