@@ -1,15 +1,15 @@
 import { storage } from '../../config.js'
-import Tournament from '../../models/dokumen-mahasiswa/tournament.js'
+import Hmj from '../../models/dokumen-mahasiswa/Hmj.js'
 
-export async function getTournament (req, res) {
+export async function getHmj (req, res) {
   try {
-    const tournament = await Tournament.find({ year: req.params.year })
+    const hmj = await Hmj.find({ year: req.params.year })
 
     return res.json({
       took: 200,
       status: 'OK',
-      data: tournament,
-      dataLength: tournament.length,
+      data: hmj,
+      dataLength: hmj.length,
       error: null
     })
   } catch (error) {
@@ -23,7 +23,7 @@ export async function getTournament (req, res) {
   }
 }
 
-export async function postTournament (req, res) {
+export async function postHmj (req, res) {
   try {
     const image = req.file
 
@@ -41,7 +41,7 @@ export async function postTournament (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'Tournament'
+    const dest = 'Hmj'
 
     const fileName = `${Date.now()}_${image.originalname}`
     const file = bucket.file(`${dest}/${fileName}`)
@@ -71,19 +71,19 @@ export async function postTournament (req, res) {
         expires: '03-01-2500'
       })
 
-      const tournament = new Tournament({
+      const hmj = new Hmj({
         url,
         fileName,
         year: req.params.year
 
       })
 
-      await tournament.save()
+      await hmj.save()
 
       return res.status(200).json({
         took: 200,
         status: 'OK',
-        data: tournament,
+        data: hmj,
         dataLength: null,
         error: null
       })
@@ -101,15 +101,15 @@ export async function postTournament (req, res) {
   }
 }
 
-export async function deleteTournament (req, res) {
+export async function deleteHmj (req, res) {
   try {
-    const tournament = await Tournament.findById(req.params.idTournament)
+    const hmj = await Hmj.findById(req.params.idHmj)
 
-    if (!tournament) {
+    if (!hmj) {
       return res.json({
         took: 404,
         status: 'Not Found',
-        data: tournament,
+        data: hmj,
         dataLength: null,
         error: {
           message: 'Data tidak ada'
@@ -119,14 +119,14 @@ export async function deleteTournament (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'Tournament'
+    const dest = 'Hmj'
 
-    const fileName = tournament.fileName
+    const fileName = hmj.fileName
     const file = bucket.file(`${dest}/${fileName}`)
 
     await file.delete()
 
-    await tournament.deleteOne()
+    await hmj.deleteOne()
 
     return res.json({
       took: 200,
