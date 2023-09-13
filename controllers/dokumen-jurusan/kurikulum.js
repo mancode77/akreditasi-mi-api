@@ -1,5 +1,4 @@
-import { storage } from '../../config.js'
-import Kurikulum from '../../models/dokumen-mahasiswa/kurikulum.js'
+import Kurikulum from '../../models/dokumen-jurusan/kurikulum.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
 
@@ -19,57 +18,19 @@ export async function getKurikulum (req, res) {
 
 export async function postKurikulum (req, res) {
   try {
-    const image = req.file
+    const kurikulum = await Kurikulum.create(req.body)
 
-    if (!image) {
-      return res.status(400).json({
-        took: 400,
-        status: 'User Error',
-        data: null,
-        dataLength: null,
-        error: {
-          message: 'Tidak ada gambar'
-        }
-      })
-    }
+    return res.status(200).json(response(200, 'OK', kurikulum, null))
+  } catch (error) {
+    return res.status(500).json(response(500, 'Server Error', null, error))
+  }
+}
 
-    const bucket = storage.bucket()
+export async function putKurikulum (req, res) {
+  try {
+    const kurikulum = await Kurikulum.findByIdAndUpdate(req.params.idKurikulum, req.body, { new: true })
 
-    const dest = 'Kurikulum'
-
-    const fileName = `${Date.now()}_${image.originalname}`
-    const file = bucket.file(`${dest}/${fileName}`)
-
-    const fileStream = file.createWriteStream({
-      metadata: {
-        contentType: image.mimetype
-      }
-    })
-
-    fileStream.on('error', (error) => {
-      console.error('Error uploading image:', error)
-      return res.status(400).json(response(400, 'User Error', null, 'Error ketika menupload gambar'))
-    })
-
-    fileStream.on('finish', async () => {
-      const [url] = await file.getSignedUrl({
-        action: 'read',
-        expires: '03-01-2500'
-      })
-
-      const kurikulum = new Kurikulum({
-        url,
-        fileName,
-        year: req.params.year
-
-      })
-
-      await kurikulum.save()
-
-      return res.status(200).json(response(200, 'OK', kurikulum, null))
-    })
-
-    fileStream.end(image.buffer)
+    return res.status(200).json(response(200, 'OK', kurikulum, null))
   } catch (error) {
     return res.status(500).json(response(500, 'Server Error', null, error))
   }
@@ -77,30 +38,7 @@ export async function postKurikulum (req, res) {
 
 export async function deleteKurikulum (req, res) {
   try {
-    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
-
-    if (!kurikulum) {
-      return res.json({
-        took: 404,
-        status: 'Not Found',
-        data: kurikulum,
-        dataLength: null,
-        error: {
-          message: 'Data tidak ada'
-        }
-      })
-    }
-
-    const bucket = storage.bucket()
-
-    const dest = 'Kurikulum'
-
-    const fileName = kurikulum.fileName
-    const file = bucket.file(`${dest}/${fileName}`)
-
-    await file.delete()
-
-    await kurikulum.deleteOne()
+    const kurikulum = await Kurikulum.findByIdAndDelete(req.params.idKurikulum)
 
     return res.status(200).json(response(200, 'OK', kurikulum, null))
   } catch (error) {
