@@ -22,9 +22,7 @@ export async function postMakrab (req, res) {
     const image = req.file
 
     if (!image) {
-      return res.status(400).json(
-        
-        {
+      return res.status(400).json({
         took: 400,
         status: 'User Error',
         data: null,
@@ -37,7 +35,7 @@ export async function postMakrab (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'makrab'
+    const dest = 'Makrab'
 
     const fileName = `${Date.now()}_${image.originalname}`
     const file = bucket.file(`${dest}/${fileName}`)
@@ -95,7 +93,7 @@ export async function deleteMakrab (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'makrab'
+    const dest = 'Makrab'
 
     const fileName = makrab.fileName
     const file = bucket.file(`${dest}/${fileName}`)

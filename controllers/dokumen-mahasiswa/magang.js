@@ -93,7 +93,7 @@ export async function deleteMagang (req, res) {
 
     const bucket = storage.bucket()
 
-    const dest = 'magang'
+    const dest = 'Magang'
 
     const fileName = magang.fileName
     const file = bucket.file(`${dest}/${fileName}`)
