@@ -121,12 +121,12 @@ export async function deleteTournament (req, res) {
 
     const dest = 'Tournament'
 
-    const fileName = Tournament.fileName
+    const fileName = tournament.fileName
     const file = bucket.file(`${dest}/${fileName}`)
 
     await file.delete()
 
-    await Tournament.deleteOne()
+    await tournament.deleteOne()
 
     return res.json({
       took: 200,
