@@ -1,5 +1,6 @@
 import { storage } from './../../config.js'
 import Makrab from './../../models/dokumen-mahasiswa/makrab.js'
+import response from '../../utils/response.js'
 import crypto from 'crypto-js'
 
 export async function getMakrab (req, res) {
@@ -11,7 +12,9 @@ export async function getMakrab (req, res) {
 
     const makrab = await Makrab.find({ year: req.params.year })
 
-    const encryptedResponse = encryptResponse(makrab, 'kodok-terbang')
+    const dataMakrab = response(200, 'OK', makrab)
+
+    const encryptedResponse = encryptResponse(dataMakrab, 'kodok-terbang')
 
     return res.status(200).json(encryptedResponse)
   } catch (error) {
