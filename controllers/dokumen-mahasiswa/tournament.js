@@ -1,5 +1,5 @@
 import { storage } from '../../config.js'
-import Hmj from '../../models/dokumen-mahasiswa/Hmj.js'
+import Hmj from '../../models/dokumen-mahasiswa/hmj.js'
 
 export async function getHmj (req, res) {
   try {
