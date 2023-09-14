@@ -75,7 +75,13 @@ export async function putKurikulum (req, res) {
 
 export async function deleteKurikulum (req, res) {
   try {
-    await Kurikulum.findByIdAndDelete(req.params.idKurikulum)
+    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
+
+    if (!kurikulum) {
+      return res.status(404).json('Data tidak ditemukan')
+    }
+
+    await kurikulum.deleteOne()
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
