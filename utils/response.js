@@ -3,7 +3,7 @@ export default function response (took, status, data, errors) {
     took,
     status,
     data,
-    dataLength: data.length ?? null,
+    dataLength: data?.length ?? null,
     errors
   }
 }

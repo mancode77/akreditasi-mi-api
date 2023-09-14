@@ -1,6 +1,7 @@
 import Kurikulum from '../../models/dokumen-jurusan/kurikulum.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
+import Joi from 'joi'
 
 export async function getKurikulum (req, res) {
   try {
@@ -18,7 +19,23 @@ export async function getKurikulum (req, res) {
 
 export async function postKurikulum (req, res) {
   try {
-    const kurikulum = await Kurikulum.create(req.body)
+    const schema = Joi.object({
+      nama: Joi.string().min(5).max(200).required(),
+      imageProfile: Joi.string().min(5).max(200).required(),
+      judul: Joi.string().min(5).max(200).required(),
+      deskripsi: Joi.string().min(5).max(200).required(),
+      tahun: Joi.number().min(2000).max(2050).required(),
+      link: Joi.string().min(5).max(200).required(),
+      video: Joi.string().min(5).max(200).required()
+    })
+
+    const result = schema.validate(req.body)
+
+    if (result.error) {
+      return res.status(400).json(response(400, 'User Error', null, result.error.details.map(error => error.message)))
+    }
+
+    const kurikulum = await Kurikulum.create(result.value)
 
     return res.status(200).json(response(200, 'OK', kurikulum, null))
   } catch (error) {
@@ -28,7 +45,33 @@ export async function postKurikulum (req, res) {
 
 export async function putKurikulum (req, res) {
   try {
-    const kurikulum = await Kurikulum.findByIdAndUpdate(req.params.idKurikulum, req.body, { new: true })
+    const schemaParam = Joi.object({
+      idKurikulum: Joi.string().min(5).max(200).required()
+    })
+
+    const schemaBody = Joi.object({
+      idKurikulum: Joi.string().min(5).max(200).required(),
+      nama: Joi.string().min(5).max(200).required(),
+      imageProfile: Joi.string().min(5).max(200).required(),
+      judul: Joi.string().min(5).max(200).required(),
+      deskripsi: Joi.string().min(5).max(200).required(),
+      tahun: Joi.number().min(2000).max(2050).required(),
+      link: Joi.string().min(5).max(200).required(),
+      video: Joi.string().min(5).max(200).required()
+    })
+
+    const resultParam = schemaParam.validate(req.params.idKurikulum)
+    const resultBody = schemaBody.validate(req.body)
+
+    if (resultParam.error) {
+      return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
+    }
+
+    if (resultBody.error) {
+      return res.status(400).json(response(400, 'User Error', null, resultBody.error.details.map(error => error.message)))
+    }
+
+    const kurikulum = await Kurikulum.findByIdAndUpdate(resultParam.value, resultBody, { new: true })
 
     return res.status(200).json(response(200, 'OK', kurikulum, null))
   } catch (error) {

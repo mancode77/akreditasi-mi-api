@@ -39,7 +39,7 @@ mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.m
   useUnifiedTopology: true
 })
 
-// mongoose.connect('mongodb://127.0.0.1:27017', {
+// mongoose.connect('mongodb://127.0.0.1:27017/akreditasimi', {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true
 // })
@@ -55,7 +55,7 @@ mongoose.connection.on('disconnected', () => {
 app.use(bodyParser.json())
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'admin-akreditasi.my.id', 'admin-akreditasi.vercel.app', 'mipolitamaak.my.id']
+  origin: '*'
 }))
 
 app.use('/api', routerVisitor)

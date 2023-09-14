@@ -3,27 +3,13 @@ import modelOptions from '../options.js'
 
 const karyaMahasiswaSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
-  nama: {
-    type: String
-  },
-  imageProfile: {
-    type: String
-  },
-  judul: {
-    type: String
-  },
-  deskripsi: {
-    type: String
-  },
-  tahun: {
-    type: Number
-  },
-  link: {
-    type: String
-  },
-  video: {
-    type: String
-  }
+  nama: String,
+  imageProfile: String,
+  judul: String,
+  deskripsi: String,
+  tahun: Number,
+  link: String,
+  video: String
 }, modelOptions)
 
 export default mongoose.model('KaryaMahasiswa', karyaMahasiswaSchema)
