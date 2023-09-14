@@ -44,7 +44,7 @@ export async function postKurikulum (req, res) {
 export async function putKurikulum (req, res) {
   try {
     const schemaParam = Joi.object({
-      idKurikulum: Joi.string().min(5).max(200).required()
+      idKurikulum: Joi.number().min(5).max(1_000_000_000_000).required()
     })
 
     const schemaBody = Joi.object({
@@ -75,9 +75,19 @@ export async function putKurikulum (req, res) {
 
 export async function deleteKurikulum (req, res) {
   try {
-    const kurikulum = await Kurikulum.findByIdAndDelete(req.params.idKurikulum)
+    const schemaParam = Joi.object({
+      idKurikulum: Joi.number().min(5).max(1_000_000_000_000).required()
+    })
 
-    return res.status(200).json(response(200, 'OK', kurikulum, null))
+    const resultParam = schemaParam.validate(req.params.idKurikulum)
+
+    if (resultParam.error) {
+      return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
+    }
+
+    await Kurikulum.findByIdAndDelete(req.params.idKurikulum)
+
+    return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
     return res.status(500).json(response(500, 'Server Error', null, error))
   }
