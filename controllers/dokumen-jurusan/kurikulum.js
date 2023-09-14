@@ -75,19 +75,21 @@ export async function putKurikulum (req, res) {
 
 export async function deleteKurikulum (req, res) {
   try {
-    const schemaParam = Joi.object({
-      idKurikulum: Joi.string().min(5).max(200).required()
-    })
+    // const schemaParam = Joi.object({
+    //   idKurikulum: Joi.string().min(5).max(200).required()
+    // })
 
-    const resultParam = schemaParam.validate(req.params.idKurikulum)
+    // const resultParam = schemaParam.validate(req.params.idKurikulum)
 
-    if (resultParam.error) {
-      return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
-    }
-    console.log(resultParam.value)
-    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
+    // if (resultParam.error) {
+    //   return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
+    // }
+    // console.log(resultParam.value)
+    // const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
 
-    // await kurikulum.deleteOne()
+    // // await kurikulum.deleteOne()
+
+    await Kurikulum.findByIdAndDelete(req.params.idKurikulum)
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
