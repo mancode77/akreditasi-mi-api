@@ -43,29 +43,9 @@ export async function postKurikulum (req, res) {
 
 export async function putKurikulum (req, res) {
   try {
-    const schemaParam = Joi.object({
-      idKurikulum: Joi.number().min(5).max(1_000_000_000_000).required()
-    })
+    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
 
-    const schemaBody = Joi.object({
-      matkul: Joi.string().min(5).max(200).required(),
-      sks: Joi.number().min(1).max(10).required(),
-      tp: Joi.string().min(5).max(8).required(),
-      semester: Joi.number().min(1).max(8).required()
-    })
-
-    const resultParam = schemaParam.validate(req.params.idKurikulum)
-    const resultBody = schemaBody.validate(req.body)
-
-    if (resultParam.error) {
-      return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
-    }
-
-    if (resultBody.error) {
-      return res.status(400).json(response(400, 'User Error', null, resultBody.error.details.map(error => error.message)))
-    }
-
-    await Kurikulum.findByIdAndUpdate(resultParam.value, resultBody, { new: true })
+    await kurikulum.deleteOne()
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
@@ -78,7 +58,7 @@ export async function deleteKurikulum (req, res) {
     const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
 
     if (!kurikulum) {
-      return res.status(404).json('Data tidak ditemukan')
+      return res.status(404).json(response(404, 'Data Not Found', null, { message: 'Data tidak ditemukan' }))
     }
 
     await kurikulum.deleteOne()
