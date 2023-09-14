@@ -29,13 +29,13 @@ export async function postKaryaMahasiswa (req, res) {
       video: Joi.string().min(5).max(200).required()
     })
 
-    const { error, value } = schema.validate(req.body)
+    const result = schema.validate(req.body)
 
-    if (error) {
-      return res.status(400).json(response(400, 'User Error', null, error.details.map(error => error.message)))
+    if (result.error) {
+      return res.status(400).json(response(400, 'User Error', null, result.error.details.map(error => error.message)))
     }
 
-    await KaryaMahasiswa.create(value)
+    await KaryaMahasiswa.create(result.value)
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
@@ -45,7 +45,11 @@ export async function postKaryaMahasiswa (req, res) {
 
 export async function putKaryaMahasiswa (req, res) {
   try {
-    const schema = Joi.object({
+    const schemaParam = Joi.object({
+      idKaryaMahasiswa: Joi.number().min(5).max(1_000_000_000_000).required()
+    })
+
+    const schemaBody = Joi.object({
       nama: Joi.string().min(5).max(200).required(),
       imageProfile: Joi.string().min(5).max(200).required(),
       judul: Joi.string().min(5).max(200).required(),
@@ -55,13 +59,18 @@ export async function putKaryaMahasiswa (req, res) {
       video: Joi.string().min(5).max(200).required()
     })
 
-    const result = schema.validate(req.body)
+    const resultParam = schemaParam.validate(req.params.idKaryaMahasiswa)
+    const resultBody = schemaBody.validate(req.body)
 
-    if (result.error) {
-      return res.status(400).json(response(400, 'User Error', null, result.error.details.map(error => error.message)))
+    if (resultParam.error) {
+      return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
     }
 
-    await KaryaMahasiswa.findByIdAndUpdate(req.params.idKaryaMahasiswa, req.body, { new: true })
+    if (resultBody.error) {
+      return res.status(400).json(response(400, 'User Error', null, resultBody.error.details.map(error => error.message)))
+    }
+
+    await KaryaMahasiswa.findByIdAndUpdate(resultParam.value, resultBody.value, { new: true })
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
@@ -71,7 +80,17 @@ export async function putKaryaMahasiswa (req, res) {
 
 export async function deleteKaryaMahasiswa (req, res) {
   try {
-    await KaryaMahasiswa.findByIdAndDelete(req.params.idKaryaMahasiswa)
+    const schemaParam = Joi.object({
+      idKaryaMahasiswa: Joi.number().min(5).max(1_000_000_000_000).required()
+    })
+
+    const resultParam = schemaParam.validate(req.params.idKaryaMahasiswa)
+
+    if (resultParam.error) {
+      return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
+    }
+
+    await KaryaMahasiswa.findByIdAndDelete(resultParam.idKaryaMahasiswa)
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {

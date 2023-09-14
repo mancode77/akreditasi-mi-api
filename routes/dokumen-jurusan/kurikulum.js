@@ -9,6 +9,6 @@ const router = express.Router()
 
 router.get('/kurikulum', getKurikulum)
 router.post('/kurikulum', postKurikulum)
-router.delete('/kurikulum/:year/:idKurikulum', deleteKurikulum)
+router.delete('/kurikulum/:idKurikulum', deleteKurikulum)
 
 export default router
