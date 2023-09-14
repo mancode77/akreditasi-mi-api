@@ -33,9 +33,9 @@ export async function postKurikulum (req, res) {
       return res.status(400).json(response(400, 'User Error', null, result.error.details.map(error => error.message)))
     }
 
-    const kurikulum = await Kurikulum.create(result.value)
+    await Kurikulum.create(result.value)
 
-    return res.status(200).json(response(200, 'OK', kurikulum, null))
+    return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
     return res.status(500).json(response(500, 'Server Error', null, error))
   }
@@ -65,9 +65,9 @@ export async function putKurikulum (req, res) {
       return res.status(400).json(response(400, 'User Error', null, resultBody.error.details.map(error => error.message)))
     }
 
-    const kurikulum = await Kurikulum.findByIdAndUpdate(resultParam.value, resultBody, { new: true })
+    await Kurikulum.findByIdAndUpdate(resultParam.value, resultBody, { new: true })
 
-    return res.status(200).json(response(200, 'OK', kurikulum, null))
+    return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
     return res.status(500).json(response(500, 'Server Error', null, error))
   }
