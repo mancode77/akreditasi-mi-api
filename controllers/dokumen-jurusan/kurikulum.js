@@ -84,10 +84,10 @@ export async function deleteKurikulum (req, res) {
     if (resultParam.error) {
       return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
     }
+    console.log(resultParam.value)
+    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
 
-    const kurikulum = await Kurikulum.findById(resultParam.value)
-
-    await kurikulum.deleteOne()
+    // await kurikulum.deleteOne()
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
