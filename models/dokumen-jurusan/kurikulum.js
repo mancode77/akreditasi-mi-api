@@ -13,7 +13,7 @@ const kurikulumSchema = new mongoose.Schema({
     type: Number
   },
   tp: {
-    type: Boolean
+    type: String
   },
   semester: {
     type: Number
