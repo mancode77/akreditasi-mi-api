@@ -20,13 +20,11 @@ export async function getKurikulum (req, res) {
 export async function postKurikulum (req, res) {
   try {
     const schema = Joi.object({
-      nama: Joi.string().min(5).max(200).required(),
-      imageProfile: Joi.string().min(5).max(200).required(),
-      judul: Joi.string().min(5).max(200).required(),
-      deskripsi: Joi.string().min(5).max(200).required(),
-      tahun: Joi.number().min(2000).max(2050).required(),
-      link: Joi.string().min(5).max(200).required(),
-      video: Joi.string().min(5).max(200).required()
+      idKurikulum: Joi.number().min(5).max(200).required(),
+      matkul: Joi.string().min(5).max(200).required(),
+      sks: Joi.number().min(1).max(10).required(),
+      tp: Joi.string().min(5).max(8).required(),
+      semester: Joi.number().min(1).max(8).required()
     })
 
     const result = schema.validate(req.body)
@@ -50,14 +48,10 @@ export async function putKurikulum (req, res) {
     })
 
     const schemaBody = Joi.object({
-      idKurikulum: Joi.string().min(5).max(200).required(),
-      nama: Joi.string().min(5).max(200).required(),
-      imageProfile: Joi.string().min(5).max(200).required(),
-      judul: Joi.string().min(5).max(200).required(),
-      deskripsi: Joi.string().min(5).max(200).required(),
-      tahun: Joi.number().min(2000).max(2050).required(),
-      link: Joi.string().min(5).max(200).required(),
-      video: Joi.string().min(5).max(200).required()
+      matkul: Joi.string().min(5).max(200).required(),
+      sks: Joi.number().min(1).max(10).required(),
+      tp: Joi.string().min(5).max(8).required(),
+      semester: Joi.number().min(1).max(8).required()
     })
 
     const resultParam = schemaParam.validate(req.params.idKurikulum)
