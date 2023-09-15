@@ -43,9 +43,21 @@ export async function postKurikulum (req, res) {
 
 export async function putKurikulum (req, res) {
   try {
-    const kurikulum = await Kurikulum.findById(req.params.idKurikulum)
+    const schema = Joi.object({
+      idKurikulum: Joi.number().min(5).max(1_000_000_000_000).required(),
+      matkul: Joi.string().min(5).max(200).required(),
+      sks: Joi.number().min(1).max(10).required(),
+      tp: Joi.string().min(5).max(8).required(),
+      semester: Joi.number().min(1).max(8).required()
+    })
 
-    await kurikulum.deleteOne()
+    const result = schema.validate(req.body)
+
+    if (result.error) {
+      return res.status(400).json(response(400, 'User Error', null, result.error.details.map(error => error.message)))
+    }
+
+    await Kurikulum.findByIdAndUpdate(req.params.idKurikulum, result.value, { new: true })
 
     return res.status(200).json(response(200, 'OK', { message: 'Sukses' }, null))
   } catch (error) {
