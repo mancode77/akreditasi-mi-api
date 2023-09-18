@@ -4,7 +4,6 @@ import {
   postSosialisasi,
   deleteSosialisasi
 } from '../../controllers/dokumen-mahasiswa/sosialisasi.js'
-
 import express from 'express'
 
 const router = express.Router()

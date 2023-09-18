@@ -24,8 +24,6 @@ import routerHmj from './routes/dokumen-mahasiswa/hmj.js'
 
 // Route Sarana Prasarana
 import routerSaranaPrasarana from './routes/sarana-prasarana.js'
-// Route Sarana Prasarana Perpustakaan
-import routerSaranaPrasaranaPerpustakaan from './routes/sarana-prasarana-perpustakaan.js'
 
 import express from 'express'
 import mongoose from 'mongoose'
@@ -40,15 +38,15 @@ if (!app) {
 
 const port = process.env.PORT || 3000
 
-// mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-
-mongoose.connect('mongodb://127.0.0.1:27017/akreditasimi', {
+mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+
+// mongoose.connect('mongodb://127.0.0.1:27017/akreditasimi', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
 
 mongoose.connection.on('connected', () => {
   console.log('Koneksi berhasil ngabs skuy kita mabar bersama kodok terbang')

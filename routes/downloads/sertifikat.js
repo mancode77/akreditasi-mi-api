@@ -4,7 +4,6 @@ import {
   putSertifikat,
   deleteSertifikat
 } from '../../controllers/downloads/sertifikat.js'
-
 import express from 'express'
 
 const router = express.Router()

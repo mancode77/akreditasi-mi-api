@@ -1,11 +1,11 @@
-import express from 'express'
+import upload from '../middleware/multer.js'
 import {
   getSaranaPrasaranaPerpustakaan,
   postSaranaPrasaranaPerpustakaan,
   putSaranaPrasaranaPerpustakaan,
   deleteSaranaPrasaranaPerpustakaan
 } from '../controllers/sarana-prasarana-perpustakaan.js'
-import upload from '../middleware/multer.js'
+import express from 'express'
 
 const router = express.Router()
 
