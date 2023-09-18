@@ -1,10 +1,11 @@
-import express from 'express'
 import {
   getPenelitian,
   postPenelitian,
   putPenelitian,
   deletePenelitian
 } from '../../controllers/downloads/penelitian.js'
+
+import express from 'express'
 
 const router = express.Router()
 

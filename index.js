@@ -1,8 +1,4 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-
+// Route Visitor
 import routerVisitor from './routes/visitor.js'
 
 // Routes Downloads
@@ -26,6 +22,14 @@ import routerWebinar from './routes/dokumen-mahasiswa/webinar.js'
 import routerTurnamen from './routes/dokumen-mahasiswa/turnamen.js'
 import routerHmj from './routes/dokumen-mahasiswa/hmj.js'
 
+// Route Sarana Prasarana
+import routerSaranaPrasarana from './routes/sarana-prasarana.js'
+
+import express from 'express'
+import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+
 let app = null
 
 if (!app) {
@@ -45,7 +49,7 @@ mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.m
 // })
 
 mongoose.connection.on('connected', () => {
-  console.log('Koneksi berhasil ngabs skuy kita mabar bersama kodok terbang dan mister raul')
+  console.log('Koneksi berhasil ngabs skuy kita mabar bersama kodok terbang')
 })
 
 mongoose.connection.on('disconnected', () => {
@@ -80,6 +84,9 @@ app.use('/api', routerSeminar)
 app.use('/api', routerWebinar)
 app.use('/api', routerTurnamen)
 app.use('/api', routerHmj)
+
+// Routes Sarana Prasarana
+app.use('/api', routerSaranaPrasarana)
 
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`)

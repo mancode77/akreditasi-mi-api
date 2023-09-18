@@ -1,7 +1,7 @@
-import { storage } from './../../config.js'
 import Makrab from './../../models/dokumen-mahasiswa/makrab.js'
 import response from '../../utils/response.js'
 import encrypt from './../../utils/encrypt.js'
+import { storage } from './../../config.js'
 
 export async function getMakrab (req, res) {
   try {

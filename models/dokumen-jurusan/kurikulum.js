@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
 import modelOptions from '../options.js'
+import mongoose from 'mongoose'
 
 const kurikulumSchema = new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,

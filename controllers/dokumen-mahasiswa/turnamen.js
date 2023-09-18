@@ -1,7 +1,7 @@
-import { storage } from '../../config.js'
 import Turnamen from '../../models/dokumen-mahasiswa/turnamen.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
+import { storage } from '../../config.js'
 
 export async function getTurnamen (req, res) {
   try {

@@ -1,7 +1,7 @@
-import { storage } from '../../config.js'
 import Sosialisasi from '../../models/dokumen-mahasiswa/sosialisasi.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
+import { storage } from '../../config.js'
 
 export async function getSosialisasi (req, res) {
   try {

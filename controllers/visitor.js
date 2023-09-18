@@ -1,45 +1,22 @@
 import Visitor from './../models/visitor.js'
-
-export async function postVisitor (req, res) {
-  try {
-    const visitor = await Visitor.create(req.body)
-
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: visitor,
-      dataLength: null,
-      error: null
-    })
-  } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error: { error: error.errors.cookie.message }
-    })
-  }
-}
+import response from './../utils/response.js'
 
 export async function getVisitorsLength (req, res) {
   try {
     const visitorLength = await Visitor.count()
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: visitorLength,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', visitorLength, null))
   } catch (error) {
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error: { error: error.errors.cookie.message }
-    })
+    return res.status(500).json(response(500, 'OK', null, error))
+  }
+}
+
+export async function postVisitor (req, res) {
+  try {
+    const visitor = await Visitor.create(req.body)
+
+    return res.status(200).json(response(200, 'OK', visitor, null))
+  } catch (error) {
+    return res.status(500).json(response(500, 'OK', null, error))
   }
 }

@@ -1,7 +1,7 @@
-import { storage } from '../../config.js'
 import Magang from '../../models/dokumen-mahasiswa/magang.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
+import { storage } from '../../config.js'
 
 export async function getMagang (req, res) {
   try {

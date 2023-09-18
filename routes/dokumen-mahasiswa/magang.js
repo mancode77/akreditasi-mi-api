@@ -1,10 +1,11 @@
-import express from 'express'
 import upload from '../../middleware/multer.js'
 import {
   getMagang,
   postMagang,
   deleteMagang
 } from '../../controllers/dokumen-mahasiswa/magang.js'
+
+import express from 'express'
 
 const router = express.Router()
 

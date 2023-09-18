@@ -1,7 +1,7 @@
-import { storage } from '../../config.js'
 import Webinar from '../../models/dokumen-mahasiswa/webinar.js'
 import response from '../../utils/response.js'
 import encrypt from '../../utils/encrypt.js'
+import { storage } from '../../config.js'
 
 export async function getWebinar (req, res) {
   try {

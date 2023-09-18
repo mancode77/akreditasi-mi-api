@@ -20,7 +20,7 @@ export async function getKurikulum (req, res) {
 export async function postKurikulum (req, res) {
   try {
     const schema = Joi.object({
-      idKurikulum: Joi.number().min(5).max(1_000_000_000_000).required(),
+      idKurikulum: Joi.number().min(1_000_000_000).max(1_000_000_000_000).required(),
       matkul: Joi.string().min(5).max(200).required(),
       sks: Joi.number().min(1).max(10).required(),
       tp: Joi.string().min(5).max(8).required(),
@@ -44,7 +44,7 @@ export async function postKurikulum (req, res) {
 export async function putKurikulum (req, res) {
   try {
     const schema = Joi.object({
-      idKurikulum: Joi.number().min(5).max(1_000_000_000_000).required(),
+      idKurikulum: Joi.number().min(1_000_000_000).max(1_000_000_000_000).required(),
       matkul: Joi.string().min(5).max(200).required(),
       sks: Joi.number().min(1).max(10).required(),
       tp: Joi.string().min(5).max(8).required(),

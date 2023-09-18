@@ -1,10 +1,11 @@
-import express from 'express'
 import {
   getKurikulum,
   postKurikulum,
   putKurikulum,
   deleteKurikulum
 } from '../../controllers/dokumen-jurusan/kurikulum.js'
+
+import express from 'express'
 
 const router = express.Router()
 
