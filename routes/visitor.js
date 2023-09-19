@@ -2,7 +2,6 @@ import {
   getVisitorsLength,
   postVisitor
 } from './../controllers/visitor.js'
-
 import express from 'express'
 
 const router = express.Router()

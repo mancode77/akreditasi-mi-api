@@ -19,6 +19,7 @@ export async function getKaryaMahasiswa (req, res) {
 
 export async function postKaryaMahasiswa (req, res) {
   try {
+    //* Inisialisasi Schema Validasi data input user
     const schema = Joi.object({
       nama: Joi.string().pattern(/^[A-Za-z]+$/).min(5).max(200).required(),
       imageProfile: Joi.string().min(5).max(200).required(),
@@ -29,8 +30,10 @@ export async function postKaryaMahasiswa (req, res) {
       video: Joi.string().min(5).max(200).required()
     })
 
+    //* Validasi data input user
     const result = schema.validate(req.body)
 
+    //* Jika tidak memenuhi syarat validasi, maka memberikan "response error"
     if (result.error) {
       return res.status(400).json(response(400, 'User Error', null, result.error.details.map(error => error.message)))
     }
@@ -45,10 +48,12 @@ export async function postKaryaMahasiswa (req, res) {
 
 export async function putKaryaMahasiswa (req, res) {
   try {
+    //* Inisialisasi Schema Validasi params route
     const schemaParam = Joi.object({
       idKaryaMahasiswa: Joi.number().min(5).max(1_000_000_000_000).required()
     })
 
+    //* Inisialisasi Schema Validasi data input user
     const schemaBody = Joi.object({
       nama: Joi.string().min(5).max(200).required(),
       imageProfile: Joi.string().min(5).max(200).required(),
@@ -59,9 +64,12 @@ export async function putKaryaMahasiswa (req, res) {
       video: Joi.string().min(5).max(200).required()
     })
 
+    //* Validasi params route
     const resultParam = schemaParam.validate(req.params.idKaryaMahasiswa)
+    //* Validasi input data user
     const resultBody = schemaBody.validate(req.body)
 
+    //* Jika tidak memenuhi standart validasi, maka memberikan "response error"
     if (resultParam.error) {
       return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
     }
@@ -80,12 +88,15 @@ export async function putKaryaMahasiswa (req, res) {
 
 export async function deleteKaryaMahasiswa (req, res) {
   try {
+    //* Inisialisasi Schema Validasi params route
     const schemaParam = Joi.object({
       idKaryaMahasiswa: Joi.number().min(5).max(1_000_000_000_000).required()
     })
 
+    //* Validasi params route
     const resultParam = schemaParam.validate(req.params.idKaryaMahasiswa)
 
+    //* Jika tidak memenuhi syarat validasi, maka memberikan "response error"
     if (resultParam.error) {
       return res.status(400).json(response(400, 'User Error', null, resultParam.error.details.map(error => error.message)))
     }

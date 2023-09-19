@@ -4,7 +4,6 @@ import {
   postWebinar,
   deleteWebinar
 } from '../../controllers/dokumen-mahasiswa/webinar.js'
-
 import express from 'express'
 
 const router = express.Router()
