@@ -38,7 +38,7 @@ if (!app) {
 
 const port = process.env.PORT || 3000
 
-mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://mipolitamaak:XWHsNxLgFDW1S1ah@cluster0.9phgxal.mongodb.net/mi-politama?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
