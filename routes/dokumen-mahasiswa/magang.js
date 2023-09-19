@@ -4,7 +4,6 @@ import {
   postMagang,
   deleteMagang
 } from '../../controllers/dokumen-mahasiswa/magang.js'
-
 import express from 'express'
 
 const router = express.Router()

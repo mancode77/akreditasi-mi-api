@@ -4,7 +4,6 @@ import {
   putKaryaMahasiswa,
   deleteKaryaMahasiswa
 } from '../../controllers/dokumen-jurusan/karya-mahasiswa.js'
-
 import express from 'express'
 
 const router = express.Router()

@@ -1,20 +1,9 @@
 import SaranaPrasarana from "../models/sarana-prasarana.js";
 import response from "../utils/response.js";
 import encrypt from "../utils/encrypt.js";
+import capitalize from "../utils/capitalize.js";
 import Joi from "joi";
 import { storage } from "../config.js";
-
-function capitalize(str) {
-  const words = str.split(" ");
-
-  // Capitalize the first letter of each word and make the rest lowercase
-  const capitalizedWords = words.map((word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  });
-
-  // Join the words back together into a single string
-  return capitalizedWords.join(" ");
-}
 
 export async function getSaranaPrasarana(req, res) {
   try {
@@ -53,7 +42,7 @@ export async function getSaranaPrasarana(req, res) {
         .status(404)
         .json(response(400, "User Error", "Data not found", null, true));
     }
-    
+
     const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
 
     const encryptedResponse = encrypt(dataSaranaPrasarana, "123");
@@ -81,7 +70,7 @@ export async function postSaranaPrasarana(req, res) {
     //* Validasi data input user
     const result = schema.validate({ titleImage: lowercaseData });
 
-    //* Jika tidak memenuhi standart validasi, maka memberikan "response error"
+    //* Jika tidak memenuhi syarat validasi, maka memberikan "response error"
     if (result.error) {
       return res.status(400).json(
         response(
@@ -98,7 +87,7 @@ export async function postSaranaPrasarana(req, res) {
       titleImage: lowercaseData,
     });
 
-    //* Jika data input user terdapat pada Database, maka memberikan response "data sudah ada"
+    //* Jika data yang diinputkan user tidak tersedia, maka tambah data "titleImage dan foto"
     if (existingSaranaPrasarana === null) {
       const image = req.file;
 
@@ -111,6 +100,7 @@ export async function postSaranaPrasarana(req, res) {
       }
 
       const bucket = storage.bucket();
+
       const dest = capitalize(req.params.namaSaranaPrasarana);
       const fileName = `${Date.now()}_${image.originalname}`;
       const file = bucket.file(`${dest}/${fileName}`);
@@ -157,6 +147,8 @@ export async function postSaranaPrasarana(req, res) {
           .json(response(200, "OK", { message: "Sukses" }, null));
       });
       fileStream.end(image.buffer);
+
+      //* Selain Jika data yang diinputkan user sudah ada, maka tambah data "foto" saja
     } else {
       const image = req.file;
 
@@ -169,6 +161,7 @@ export async function postSaranaPrasarana(req, res) {
       }
 
       const bucket = storage.bucket();
+
       const dest = capitalize(req.params.namaSaranaPrasarana);
       const fileName = `${Date.now()}_${image.originalname}`;
       const file = bucket.file(`${dest}/${fileName}`);
@@ -231,6 +224,7 @@ export async function deleteSaranaPrasarana(req, res) {
       namaSaranaPrasarana: Joi.string().min(5).max(200).required(),
     });
 
+    //* Data input user, setiap karakternya dijadikan lowercase
     let lowercaseData;
 
     if (typeof req.params.namaSaranaPrasarana === "string") {
@@ -267,14 +261,16 @@ export async function deleteSaranaPrasarana(req, res) {
       );
     }
 
+    //* Temukan url gambar pada database
     const findUrlImageObject = saranaPrasarana.urlImage.find(
-      (imageObject) => imageObject._id == result.value.idImageUrl
+      (imageObject) => imageObject._id === result.value.idImageUrl
     );
 
     const newSaranaPrasarana = saranaPrasarana.urlImage.filter(
-      (url) => url._id != result.value.idImageUrl
+      (url) => url._id !== result.value.idImageUrl
     );
 
+    //* Jika ditemukan, hapus url gambarnya
     if (findUrlImageObject) {
       const fileName = findUrlImageObject.fileName;
       const file = storage

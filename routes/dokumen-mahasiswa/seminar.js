@@ -4,7 +4,6 @@ import {
   postSeminar,
   deleteSeminar
 } from '../../controllers/dokumen-mahasiswa/seminar.js'
-
 import express from 'express'
 
 const router = express.Router()

@@ -4,7 +4,6 @@ import {
   putRps,
   deleteRps
 } from '../../controllers/downloads/rps.js'
-
 import express from 'express'
 
 const router = express.Router()

@@ -1,10 +1,10 @@
-import express from 'express'
 import {
   getDokumenMahasiswa,
   postDokumenMahasiswa,
   putDokumenMahasiswa,
   deleteDokumenMahasiswa
 } from '../../controllers/dokumen-mahasiswa.js'
+import express from 'express'
 
 const router = express.Router()
 
