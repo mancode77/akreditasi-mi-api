@@ -58,9 +58,7 @@ mongoose.connection.on('disconnected', () => {
 
 app.use(bodyParser.json())
 
-app.use(cors({
-  origin: '*'
-}))
+app.use(cors())
 
 app.use('/api', routerVisitor)
 

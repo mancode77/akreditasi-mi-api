@@ -1,85 +1,85 @@
 export const successResponse = (res, data, status = 200) => {
   res.status(status).json({
     took: status,
-    status: "success",
+    status: 'success',
     success: true,
-    data,
-  });
-};
+    data
+  })
+}
 
 export const errorResponse = (res, message, status = 500) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
-    message,
-  });
-};
+    message
+  })
+}
 
-export const notFoundResponse = (res, message = "Data not found", status = 404) => {
+export const notFoundResponse = (res, message = 'Data not found', status = 404) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
-    message,
-  });
-};
+    message
+  })
+}
 
 export const validationErrorResponse = (
   res,
   errors,
-  message = "Validation failed",
+  message = 'Validation failed',
   status = 400
 ) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
     message,
-    errors,
-  });
-};
+    errors
+  })
+}
 
 export const rateLimitResponse = (
   res,
-  message = "Rate limit exceeded",
+  message = 'Rate limit exceeded',
   status = 429
 ) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
-    message,
-  });
-};
+    message
+  })
+}
 
-export const unauthorizedResponse = (res, message = "Unauthorized", status = 401) => {
+export const unauthorizedResponse = (res, message = 'Unauthorized', status = 401) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
-    message,
-  });
-};
+    message
+  })
+}
 
-export const conflictResponse = (res, message = "Conflict", status = 409) => {
+export const conflictResponse = (res, message = 'Conflict', status = 409) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
-    message,
-  });
-};
+    message
+  })
+}
 
 export const serverErrorResponse = (
   res,
-  message = "Internal Server Error",
+  message = 'Internal Server Error',
   status = 500
 ) => {
   res.status(status).json({
     took: status,
-    status: "error",
+    status: 'error',
     success: false,
-    message,
-  });
-};
+    message
+  })
+}
