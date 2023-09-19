@@ -1,11 +1,11 @@
-import SaranaPrasarana from '../models/sarana-prasarana.js'
-import response from '../utils/response.js'
-import encrypt from '../utils/encrypt.js'
-import capitalize from '../utils/capitalize.js'
-import Joi from 'joi'
-import { storage } from '../config.js'
+import SaranaPrasarana from "../models/sarana-prasarana.js";
+import response from "../utils/response.js";
+import encrypt from "../utils/encrypt.js";
+import capitalize from "../utils/capitalize.js";
+import Joi from "joi";
+import { storage } from "../config.js";
 
-export async function getSaranaPrasarana (req, res) {
+export async function getSaranaPrasarana(req, res) {
   try {
     //* Inisialisasi Schema Validasi params route
     const schema = Joi.object({
@@ -13,211 +13,206 @@ export async function getSaranaPrasarana (req, res) {
         .pattern(/^[a-z]+$/)
         .min(3)
         .max(200)
-        .required()
-    })
+        .required(),
+    });
 
     //* Validasi params route
     const result = schema.validate({
-      namaSaranaPrasarana: req.params.namaSaranaPrasarana.toLowerCase()
-    })
+      namaSaranaPrasarana: req.params.namaSaranaPrasarana.toLowerCase(),
+    });
 
     //* Jika tidak memenuhi standart validasi, maka memberikan "response error"
     if (result.error) {
       return res.status(400).json(
         response(
           400,
-          'User Error',
+          "User Error",
           null,
           result.error.details.map((error) => error.message)
         )
-      )
+      );
     }
 
     const saranaPrasarana = await SaranaPrasarana.findOne({
-      titleImage: result.value.namaSaranaPrasarana
-    })
+      titleImage: result.value.namaSaranaPrasarana,
+    });
 
-    const dataSaranaPrasarana = response(200, 'OK', saranaPrasarana, null)
-    
-    if(!dataSaranaPrasarana) {
-      return res.status(404).json(
-        response(
-          400,
-          "User Error",
-          "Data not found",
-          null,
-          true
-        )
-      );
+    if (!saranaPrasarana) {
+      return res
+        .status(404)
+        .json(response(400, "User Error", "Data not found", null, true));
     }
-    const encryptedResponse = encrypt(dataSaranaPrasarana, '123')
 
-    return res.status(200).json(encryptedResponse)
+    const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
+
+    const encryptedResponse = encrypt(dataSaranaPrasarana, "123");
+
+    return res.status(200).json(encryptedResponse);
   } catch (error) {
-    return res.status(500).json(response(500, 'Server Error', null, error))
+    return res.status(500).json(response(500, "Server Error", null, error));
   }
 }
 
-export async function postSaranaPrasarana (req, res) {
+export async function postSaranaPrasarana(req, res) {
   try {
     //* Inisialisasi Schema Validasi data input user
     const schema = Joi.object({
-      titleImage: Joi.string().min(5).max(200).required()
-    })
+      titleImage: Joi.string().min(5).max(200).required(),
+    });
 
     //* Data input user, setiap karakternya dijadikan lowercase
-    let lowercaseData
+    let lowercaseData;
 
-    if (typeof req.body.titleImage === 'string') {
-      lowercaseData = req.body.titleImage
+    if (typeof req.body.titleImage === "string") {
+      lowercaseData = req.body.titleImage;
     }
 
     //* Validasi data input user
-    const result = schema.validate({ titleImage: lowercaseData })
+    const result = schema.validate({ titleImage: lowercaseData });
 
     //* Jika tidak memenuhi syarat validasi, maka memberikan "response error"
     if (result.error) {
       return res.status(400).json(
         response(
           400,
-          'User Error',
+          "User Error",
           null,
           result.error.details.map((error) => error.message)
         )
-      )
+      );
     }
 
     //* Mengambil data dalam Database berdasarkan input user
     const existingSaranaPrasarana = await SaranaPrasarana.findOne({
-      titleImage: lowercaseData
-    })
+      titleImage: lowercaseData,
+    });
 
     //* Jika data yang diinputkan user tidak tersedia, maka tambah data "titleImage dan foto"
     if (existingSaranaPrasarana === null) {
-      const image = req.file
+      const image = req.file;
 
       if (!image) {
         return res
           .status(400)
           .json(
-            response(400, 'User Error', { message: 'Tidak ada gambar' }, null)
-          )
+            response(400, "User Error", { message: "Tidak ada gambar" }, null)
+          );
       }
 
-      const bucket = storage.bucket()
+      const bucket = storage.bucket();
 
-      const dest = capitalize(req.params.namaSaranaPrasarana)
-      const fileName = `${Date.now()}_${image.originalname}`
-      const file = bucket.file(`${dest}/${fileName}`)
+      const dest = capitalize(req.params.namaSaranaPrasarana);
+      const fileName = `${Date.now()}_${image.originalname}`;
+      const file = bucket.file(`${dest}/${fileName}`);
 
       const fileStream = file.createWriteStream({
         metadata: {
-          contentType: image.mimetype
-        }
-      })
+          contentType: image.mimetype,
+        },
+      });
 
-      fileStream.on('error', () => {
+      fileStream.on("error", () => {
         return res
           .status(400)
           .json(
             response(
               400,
-              'User Error',
-              { message: 'Error ketika menupload gambar' },
+              "User Error",
+              { message: "Error ketika menupload gambar" },
               null
             )
-          )
-      })
+          );
+      });
 
-      fileStream.on('finish', async () => {
+      fileStream.on("finish", async () => {
         const [url] = await file.getSignedUrl({
-          action: 'read',
-          expires: '03-01-2500'
-        })
+          action: "read",
+          expires: "03-01-2500",
+        });
 
         const newDataImgUrl = {
           fileName,
-          url
-        }
+          url,
+        };
 
         const saranaPrasarana = new SaranaPrasarana({
           titleImage: lowercaseData,
-          urlImage: [newDataImgUrl]
-        })
+          urlImage: [newDataImgUrl],
+        });
 
-        await saranaPrasarana.save()
+        await saranaPrasarana.save();
 
         return res
           .status(200)
-          .json(response(200, 'OK', { message: 'Sukses' }, null))
-      })
-      fileStream.end(image.buffer)
+          .json(response(200, "OK", { message: "Sukses" }, null));
+      });
+      fileStream.end(image.buffer);
 
-    //* Selain Jika data yang diinputkan user sudah ada, maka tambah data "foto" saja
+      //* Selain Jika data yang diinputkan user sudah ada, maka tambah data "foto" saja
     } else {
-      const image = req.file
+      const image = req.file;
 
       if (!image) {
         return res
           .status(400)
           .json(
-            response(400, 'User Error', { message: 'Tidak ada gambar' }, null)
-          )
+            response(400, "User Error", { message: "Tidak ada gambar" }, null)
+          );
       }
 
-      const bucket = storage.bucket()
+      const bucket = storage.bucket();
 
-      const dest = capitalize(req.params.namaSaranaPrasarana)
-      const fileName = `${Date.now()}_${image.originalname}`
-      const file = bucket.file(`${dest}/${fileName}`)
+      const dest = capitalize(req.params.namaSaranaPrasarana);
+      const fileName = `${Date.now()}_${image.originalname}`;
+      const file = bucket.file(`${dest}/${fileName}`);
 
       const fileStream = file.createWriteStream({
         metadata: {
-          contentType: image.mimetype
-        }
-      })
+          contentType: image.mimetype,
+        },
+      });
 
-      fileStream.on('error', () => {
+      fileStream.on("error", () => {
         return res
           .status(400)
           .json(
             response(
               400,
-              'User Error',
-              { message: 'Error ketika menupload gambar' },
+              "User Error",
+              { message: "Error ketika menupload gambar" },
               null
             )
-          )
-      })
+          );
+      });
 
-      fileStream.on('finish', async () => {
+      fileStream.on("finish", async () => {
         const [url] = await file.getSignedUrl({
-          action: 'read',
-          expires: '03-01-2500'
-        })
+          action: "read",
+          expires: "03-01-2500",
+        });
 
         const newDataImgUrl = {
           fileName,
-          url
-        }
+          url,
+        };
 
-        existingSaranaPrasarana.urlImage.push(newDataImgUrl)
+        existingSaranaPrasarana.urlImage.push(newDataImgUrl);
 
-        await existingSaranaPrasarana.save()
+        await existingSaranaPrasarana.save();
 
         return res
           .status(200)
-          .json(response(200, 'OK', { message: 'Sukses' }, null))
-      })
-      fileStream.end(image.buffer)
+          .json(response(200, "OK", { message: "Sukses" }, null));
+      });
+      fileStream.end(image.buffer);
     }
   } catch (error) {
-    console.log(error)
-    return res.status(500).json(response(500, 'Server Error', null, error))
+    console.log(error);
+    return res.status(500).json(response(500, "Server Error", null, error));
   }
 }
 
-export async function deleteSaranaPrasarana (req, res) {
+export async function deleteSaranaPrasarana(req, res) {
   try {
     //* Inisialisasi Schema Validasi params route
     const schemaSaranaPrasarana = Joi.object({
@@ -226,74 +221,72 @@ export async function deleteSaranaPrasarana (req, res) {
         .min(3)
         .max(200)
         .required(),
-      namaSaranaPrasarana: Joi.string().min(5).max(200).required()
-    })
+      namaSaranaPrasarana: Joi.string().min(5).max(200).required(),
+    });
 
     //* Data input user, setiap karakternya dijadikan lowercase
-    let lowercaseData
+    let lowercaseData;
 
-    if (typeof req.params.namaSaranaPrasarana === 'string') {
-      lowercaseData = req.params.namaSaranaPrasarana.toLowerCase()
+    if (typeof req.params.namaSaranaPrasarana === "string") {
+      lowercaseData = req.params.namaSaranaPrasarana.toLowerCase();
     }
 
     //* Validasi params route
     const result = schemaSaranaPrasarana.validate({
       idImageUrl: req.params.idImageUrl,
-      namaSaranaPrasarana: lowercaseData
-    })
+      namaSaranaPrasarana: lowercaseData,
+    });
 
     //* Jika tidak memenuhi standart validasi, maka memberikan "response error"
     if (result.error) {
       return res.status(400).json(
         response(
           400,
-          'User Error',
+          "User Error",
           null,
           result.error.details.map((error) => error.message)
         )
-      )
+      );
     }
 
     const saranaPrasarana = await SaranaPrasarana.findOne({
-      titleImage: lowercaseData
-    })
+      titleImage: lowercaseData,
+    });
 
     if (!saranaPrasarana) {
-      return res
-        .status(404)
-        .json(
-          response(404, 'Data Not Found', null, {
-            message: 'Data tidak ditemukan'
-          })
-        )
+      return res.status(404).json(
+        response(404, "Data Not Found", null, {
+          message: "Data tidak ditemukan",
+        })
+      );
     }
 
     //* Temukan url gambar pada database
     const findUrlImageObject = saranaPrasarana.urlImage.find(
       (imageObject) => imageObject._id === result.value.idImageUrl
-    )
+    );
 
     const newSaranaPrasarana = saranaPrasarana.urlImage.filter(
       (url) => url._id !== result.value.idImageUrl
-    )
+    );
 
     //* Jika ditemukan, hapus url gambarnya
     if (findUrlImageObject) {
-      const fileName = findUrlImageObject.fileName
+      const fileName = findUrlImageObject.fileName;
       const file = storage
         .bucket()
-        .file(`${capitalize(lowercaseData)}/${fileName}`)
-      await file.delete()
+        .file(`${capitalize(lowercaseData)}/${fileName}`);
+      await file.delete();
     }
 
-    saranaPrasarana.urlImage = newSaranaPrasarana
-    await saranaPrasarana.save()
+    saranaPrasarana.urlImage = newSaranaPrasarana;
+    await saranaPrasarana.save();
 
     return res
       .status(200)
-      .json(response(200, 'OK', { message: 'Sukses' }, null))
+      .json(response(200, "OK", { message: "Sukses" }, null));
   } catch (error) {
-    console.log(error)
-    return res.status(500).json(response(500, 'Server Error', null, error))
+    console.log(error);
+    return res.status(500).json(response(500, "Server Error", null, error));
   }
 }
