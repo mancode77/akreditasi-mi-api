@@ -48,19 +48,13 @@ export async function getSaranaPrasarana(req, res) {
       titleImage: result.value.namaSaranaPrasarana,
     });
 
-    const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
-
-    if(!dataSaranaPrasarana) {
-      return res.status(404).json(
-        response(
-          400,
-          "User Error",
-          "Data not found",
-          null,
-          true
-        )
-      );
+    if (!saranaPrasarana) {
+      return res
+        .status(404)
+        .json(response(400, "User Error", "Data not found", null, true));
     }
+    
+    const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
 
     const encryptedResponse = encrypt(dataSaranaPrasarana, "123");
 
@@ -266,13 +260,11 @@ export async function deleteSaranaPrasarana(req, res) {
     });
 
     if (!saranaPrasarana) {
-      return res
-        .status(404)
-        .json(
-          response(404, "Data Not Found", null, {
-            message: "Data tidak ditemukan",
-          })
-        );
+      return res.status(404).json(
+        response(404, "Data Not Found", null, {
+          message: "Data tidak ditemukan",
+        })
+      );
     }
 
     const findUrlImageObject = saranaPrasarana.urlImage.find(
