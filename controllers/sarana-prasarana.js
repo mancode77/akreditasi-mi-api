@@ -1,5 +1,6 @@
 import SaranaPrasarana from "../models/sarana-prasarana.js";
 import response from "../utils/response.js";
+import { notFoundResponse } from "../utils/handleResponse.js"
 import encrypt from "../utils/encrypt.js";
 import capitalize from "../utils/capitalize.js";
 import Joi from "joi";
@@ -38,9 +39,7 @@ export async function getSaranaPrasarana(req, res) {
     });
 
     if (!saranaPrasarana) {
-      return res
-        .status(404)
-        .json(response(404, "User Error", [], "Data not found"));
+      return notFoundResponse(res)
     }
 
     const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
