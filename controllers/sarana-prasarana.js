@@ -1,6 +1,6 @@
 import SaranaPrasarana from "../models/sarana-prasarana.js";
 import response from "../utils/response.js";
-import { notFoundResponse } from "../utils/handleResponse.js"
+import { notFoundResponse, successResponse } from "../utils/handleResponse.js"
 import encrypt from "../utils/encrypt.js";
 import capitalize from "../utils/capitalize.js";
 import Joi from "joi";
@@ -42,7 +42,7 @@ export async function getSaranaPrasarana(req, res) {
       return notFoundResponse(res)
     }
 
-    const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
+    const dataSaranaPrasarana = successResponse(res, saranaPrasarana);
 
     const encryptedResponse = encrypt(dataSaranaPrasarana, "123");
 
