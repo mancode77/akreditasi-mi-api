@@ -40,7 +40,7 @@ export async function getSaranaPrasarana(req, res) {
     if (!saranaPrasarana) {
       return res
         .status(404)
-        .json(response(404, "User Error", "Data not found", null));
+        .json(response(404, "User Error", null, "Data not found"));
     }
 
     const dataSaranaPrasarana = response(200, "OK", saranaPrasarana, null);
