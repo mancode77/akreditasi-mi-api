@@ -1,89 +1,42 @@
 import Bpk from './../../models/downloads/bpk.js'
+import response from '../../utils/response.js'
 
 export async function getBpk (req, res) {
   try {
-    const bpk = await Bpk.find(req.body)
+    const bpk = await Bpk.find()
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
-      dataLength: bpk.length,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', bpk, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
 export async function postBpk (req, res) {
   try {
-    const bpk = await Bpk.create(req.body)
+    await Bpk.create(req.body)
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', { messsage: 'Sukses' }, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
 export async function putBpk (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
+    await Bpk.findByIdAndUpdate(req.params.idBpk, req.body, { new: true })
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', { messsage: 'Sukses' }, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
 export async function deleteBpk (req, res) {
   try {
-    const bpk = await Bpk.findByIdAndDelete(req.params.idBpk)
+    await Bpk.findByIdAndDelete(req.params.idBpk)
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: bpk,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', { messsage: 'Sukses' }, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }

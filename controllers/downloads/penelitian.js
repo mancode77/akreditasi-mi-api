@@ -1,89 +1,42 @@
 import Penelitian from '../../models/downloads/penelitian.js'
+import response from '../../utils/response.js'
 
 export async function getPenelitian (req, res) {
   try {
     const penelitian = await Penelitian.find(req.body)
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: penelitian,
-      dataLength: penelitian.length,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', penelitian, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
 export async function postPenelitian (req, res) {
   try {
-    const penelitian = await Penelitian.create(req.body)
+    await Penelitian.create(req.body)
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: penelitian,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', { messsage: 'Sukses' }, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
 export async function putPenelitian (req, res) {
   try {
-    const penelitian = await Penelitian.findByIdAndUpdate(req.params.idPenelitian, req.body, { new: true })
+    await Penelitian.findByIdAndUpdate(req.params.idPenelitian, req.body, { new: true })
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: penelitian,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', { messsage: 'Sukses' }, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
 
 export async function deletePenelitian (req, res) {
   try {
-    const penelitian = await Penelitian.findByIdAndDelete(req.params.idPenelitian)
+    await Penelitian.findByIdAndDelete(req.params.idPenelitian)
 
-    return res.json({
-      took: 200,
-      status: 'OK',
-      data: penelitian,
-      dataLength: null,
-      error: null
-    })
+    return res.status(200).json(response(200, 'OK', { messsage: 'Sukses' }, null))
   } catch (error) {
-    return res.json({
-      took: 500,
-      status: 'OK',
-      data: null,
-      dataLength: null,
-      error
-    })
+    return res.status(500).json(response(500, 'Server Error', null, error))
   }
 }
